@@ -20,7 +20,8 @@ Ashley -
 
 Jillian -
 
-Jonah -
+Jonah - Learn about neural networks & machine learning, become more proficient
+        at git stuff, make more presentable code
 
 
 **Implementation Plan:**
