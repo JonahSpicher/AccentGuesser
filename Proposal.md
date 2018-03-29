@@ -16,7 +16,7 @@ Software Design Final Project Proposal
 
 **Learning Goals:**
 
-Ashley -
+Ashley - During this project, I would really like to focus on learning how to structure a large scale project, as organization becomes more and more important as scale increases and I have never coded a project this large from scratch before. I would also like to work on learning to integrate code written separately, as I have mostly used the para programming approach up until this point. I am also excited about learning about machine learning algorithms.
 
 Jillian - For this particular project, I hope to gain a better understanding of
           the interdisciplinary applications of machine learning and neural
