@@ -18,7 +18,12 @@ Software Design Final Project Proposal
 
 Ashley -
 
-Jillian -
+Jillian - For this particular project, I hope to gain a better understanding of
+          the interdisciplinary applications of machine learning and neural
+          networks, as well as applying it to an area of interest for me. Through
+          this, I hope to get better at working through conceptualizing and
+          developing a framework and final project while improving my teaming
+          abilities.
 
 Jonah - Learn about neural networks & machine learning, become more proficient
         at git stuff, make more presentable code
