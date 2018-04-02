@@ -1,6 +1,6 @@
 **Background and Context:**
 
-    We are going to do accent recognition using machine learning. We will train a
+   We are going to do accent recognition using machine learning. We will train a
 neural network on a dataset from kaggle which contains a passage read in
 English by over 2000 people from around the world. When complete, our software
 should be able to analyze recorded speech and guess the accent of the speaker
