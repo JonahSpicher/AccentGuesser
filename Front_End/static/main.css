@@ -1,0 +1,16 @@
+body {
+  font: .875em normal Helvetica, Arial;
+  color: #878787;
+  background-image: url(test1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.main_map {
+  margin: 0 auto 40px;
+  width: 100%;
+}
+
+label {
+  align-self: center;
+}
