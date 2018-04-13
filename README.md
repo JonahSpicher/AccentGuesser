@@ -20,6 +20,7 @@ Ashley Swanson
 Librosa-
 
 To install:
+
     $pip install librosa
 
 tensorflow-
@@ -31,6 +32,7 @@ Follow instructions at https://www.tensorflow.org/install/
 Flask-
 
 To install:
+
     $sudo pip install Flask
 
 
