@@ -33,7 +33,7 @@ Flask-
 
 To install:
 
-    $sudo pip install Flask
+    $pip install Flask
 
 ffmpeg-
 
@@ -43,6 +43,12 @@ To install:
 	$
 	$
 	$
+
+Keras-
+
+To install:
+
+	$pip install keras
 
 
 **Usage:**
