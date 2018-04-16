@@ -35,6 +35,15 @@ To install:
 
     $sudo pip install Flask
 
+ffmpeg-
+
+To install:
+(I will fill this in later)
+	$
+	$
+	$
+	$
+
 
 **Usage:**
 As of right now, navigate to the front_end folder and run web_app.py in python
