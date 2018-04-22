@@ -1,13 +1,13 @@
 from __future__ import print_function
 
-''' 
+'''
 Classify sounds using database
 Author: Scott H. Hawley
 
 This is kind of a mixture of Keun Woo Choi's code https://github.com/keunwoochoi/music-auto_tagging-keras
    and the MNIST classifier at https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py
 
-Trained using Fraunhofer IDMT's database of monophonic guitar effects, 
+Trained using Fraunhofer IDMT's database of monophonic guitar effects,
    clips were 2 seconds long, sampled at 44100 Hz
 '''
 
@@ -36,7 +36,7 @@ def get_class_names(path="Preproc/"):  # class names are subdirectory names in P
     class_names = os.listdir(path)
     return class_names
 
-def get_total_files(path="Preproc/",train_percentage=0.8): 
+def get_total_files(path="Preproc/",train_percentage=0.8):
     sum_total = 0
     sum_train = 0
     sum_test = 0
@@ -45,21 +45,39 @@ def get_total_files(path="Preproc/",train_percentage=0.8):
         files = os.listdir(path+subdir)
         n_files = len(files)
         sum_total += n_files
-        n_train = int(train_percentage*n_files)
-        n_test = n_files - n_train
+        #I've changed this here so that if there is only one file, it counts it like it's just going to train on it.
+        #Probably that is what we should do, if we even use folders with 1 file in them.
+        if len(files) == 1:
+            n_train = 1
+            n_test = 0
+        else:
+            n_train = int(train_percentage*n_files)
+            n_test = n_files - n_train
         sum_train += n_train
         sum_test += n_test
     return sum_total, sum_train, sum_test
 
 def get_sample_dimensions(path='Preproc/'):
-    classname = os.listdir(path)[0]
-    files = os.listdir(path+classname)
-    infilename = files[0]
+    longest = 0
+    classnames = os.listdir(path)
+    #Initially, this just spat out the first file in the first folder, which was not useful.
+    #Now, it iterates through all the files, recording the longest one.
+    for class_folder in classnames:
+        files = os.listdir(path+class_folder)
+        for i in range(len(files)):
+            audio_path = path + class_folder + '/' + files[i]
+            melgram = np.load(audio_path)
+            if len(melgram[0,0,0]) > longest:
+                longest = len(melgram[0,0,0])
+                infilename = files[i]
+                classname = class_folder
+                #print("Current Longest:", infilename, longest)
+
     audio_path = path + classname + '/' + infilename
     melgram = np.load(audio_path)
     print("   get_sample_dimensions: melgram.shape = ",melgram.shape)
     return melgram.shape
- 
+
 
 def encode_class(class_name, class_names):  # makes a "one-hot" vector for each class name called
     try:
@@ -96,7 +114,7 @@ def build_datasets(train_percentage=0.8, preproc=False):
         path = "Samples/"
 
     class_names = get_class_names(path=path)
-    print("class_names = ",class_names)
+    #print("class_names = ",class_names)
 
     total_files, total_train, total_test = get_total_files(path=path, train_percentage=train_percentage)
     print("total files = ",total_files)
@@ -105,10 +123,14 @@ def build_datasets(train_percentage=0.8, preproc=False):
 
     # pre-allocate memory for speed (old method used np.concatenate, slow)
     mel_dims = get_sample_dimensions(path=path)  # Find out the 'shape' of each data file
-    X_train = np.zeros((total_train, mel_dims[1], mel_dims[2], mel_dims[3]))   
-    Y_train = np.zeros((total_train, nb_classes))  
-    X_test = np.zeros((total_test, mel_dims[1], mel_dims[2], mel_dims[3]))  
-    Y_test = np.zeros((total_test, nb_classes))  
+
+    #Right now this is an empty list of arrays each with the size of the total number of things to train on (ok, kinda), and then the shape of the largest recording
+    X_train = np.zeros((total_train, mel_dims[1], mel_dims[2], mel_dims[3]))
+    # print("Hi, this is: "+ str(mel_dims[3])) #size is 2081
+    # print(X_train.shape)
+    Y_train = np.zeros((total_train, nb_classes))
+    X_test = np.zeros((total_test, mel_dims[1], mel_dims[2], mel_dims[3]))
+    Y_test = np.zeros((total_test, nb_classes))
     paths_train = []
     paths_test = []
 
@@ -120,35 +142,60 @@ def build_datasets(train_percentage=0.8, preproc=False):
         class_files = os.listdir(path+classname)
         n_files = len(class_files)
         n_load =  n_files
-        n_train = int(train_percentage * n_load)
+        if n_files == 1:
+            n_train = 1
+        else:
+            n_train = int(train_percentage * n_load)
         printevery = 100
         print("")
-        for idx2, infilename in enumerate(class_files[0:n_load]):          
+        for idx2, infilename in enumerate(class_files[0:n_load]):
             audio_path = path + classname + '/' + infilename
             if (0 == idx2 % printevery):
                 print('\r Loading class: {:14s} ({:2d} of {:2d} classes)'.format(classname,idx+1,nb_classes),
                        ", file ",idx2+1," of ",n_load,": ",audio_path,sep="")
             #start = timer()
             if (preproc):
-              melgram = np.load(audio_path)
+                #I called it "First" so that I could edit it later, you'll see.
+              first_melgram = np.load(audio_path)
               sr = 44100
             else:
               aud, sr = librosa.load(audio_path, mono=mono,sr=None)
-              melgram = librosa.logamplitude(librosa.feature.melspectrogram(aud, sr=sr, n_mels=96),ref_power=1.0)[np.newaxis,np.newaxis,:,:]
+              first_melgram = librosa.logamplitude(librosa.feature.melspectrogram(aud, sr=sr, n_mels=96),ref_power=1.0)[np.newaxis,np.newaxis,:,:]
 
-            melgram = melgram[:,:,:,0:mel_dims[3]]   # just in case files are differnt sizes: clip to first file size
-       
+
+            #Weird stuff I had to do to get it to work, could be bad for data
+
+            # print("Melgram Length", len(first_melgram[0,0,0]))
+            # print("And Mel_dims is", len(X_train[0,0,0]))
+
+            #So, in the case that our current file is shorter than the X_train slot its supposed to fit into...
+            if (len(first_melgram[0,0,0]) < mel_dims[3]):
+                #First get the shape of the old file
+                shape = first_melgram.shape
+                #Make a template full of zeros, with the fourth row the right size for the new_fourth
+                melgram = np.zeros((shape[0], shape[1], shape[2], len(X_train[0,0,0])))
+                #Fill melgram in up to the where it can be. I think this works now.
+                melgram[:, :, :, 0:shape[3]] = first_melgram
+            #This case shouldn't happen anymore, X_train is max length
+            # else:
+            #     melgram = melgram[:,:,:,0:(len(X_train[0,0,0]))]   # just in case files are differnt sizes: clip to first file size
+            #     #print("New Melgram Length", len(melgram[0,0,0]))
+
+
+
+
             #end = timer()
-            #print("time = ",end - start) 
+            #print("time = ",end - start)
             if (idx2 < n_train):
                 # concatenate is SLOW for big datasets; use pre-allocated instead
-                #X_train = np.concatenate((X_train, melgram), axis=0)  
+                #X_train = np.concatenate((X_train, melgram), axis=0)
                 #Y_train = np.concatenate((Y_train, this_Y), axis=0)
                 X_train[train_count,:,:] = melgram
                 Y_train[train_count,:] = this_Y
                 paths_train.append(audio_path)     # list-appending is still fast. (??)
                 train_count += 1
             else:
+
                 X_test[test_count,:,:] = melgram
                 Y_test[test_count,:] = this_Y
                 #X_test = np.concatenate((X_test, melgram), axis=0)
@@ -157,9 +204,10 @@ def build_datasets(train_percentage=0.8, preproc=False):
                 test_count += 1
         print("")
 
-    print("Shuffling order of data...")
-    X_train, Y_train, paths_train = shuffle_XY_paths(X_train, Y_train, paths_train)
-    X_test, Y_test, paths_test = shuffle_XY_paths(X_test, Y_test, paths_test)
+    # print("Shuffling order of data...")
+    # X_train, Y_train, paths_train = shuffle_XY_paths(X_train, Y_train, paths_train)
+    # X_test, Y_test, paths_test = shuffle_XY_paths(X_test, Y_test, paths_test)
+    # print('ok done doing that')
 
     return X_train, Y_train, paths_train, X_test, Y_test, paths_test, class_names, sr
 
@@ -170,18 +218,25 @@ def build_model(X,Y,nb_classes):
     pool_size = (2, 2)  # size of pooling area for max pooling
     kernel_size = (3, 3)  # convolution kernel size
     nb_layers = 4
-    input_shape = (1, X.shape[2], X.shape[3])
+    input_shape = (X.shape[2], X.shape[3], 1)
+    strides = (1, 1)
 
     model = Sequential()
-    model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1],
-                        border_mode='valid', input_shape=input_shape))
-    model.add(BatchNormalization(axis=1, mode=2))
+
+    # model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1],
+    #                     border_mode='valid', input_shape=input_shape))
+
+    model.add(Convolution2D(nb_filters, kernel_size,
+                        padding='valid', input_shape=input_shape))
+    #was model.add(BatchNormalization(axis=1, mode=2)) but mode is broken
+    model.add(BatchNormalization(axis=1))
     model.add(Activation('relu'))
 
     for layer in range(nb_layers-1):
-        model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
-        model.add(BatchNormalization(axis=1, mode=2))
-        model.add(ELU(alpha=1.0))  
+        model.add(Convolution2D(nb_filters, kernel_size))
+        #was model.add(BatchNormalization(axis=1, mode=2)) but mode is broken
+        model.add(BatchNormalization(axis=1))
+        model.add(ELU(alpha=1.0))
         model.add(MaxPooling2D(pool_size=pool_size))
         model.add(Dropout(0.25))
 
@@ -192,7 +247,7 @@ def build_model(X,Y,nb_classes):
     model.add(Dense(nb_classes))
     model.add(Activation("softmax"))
     return model
-    
+
 
 if __name__ == '__main__':
     np.random.seed(1)
@@ -225,9 +280,11 @@ if __name__ == '__main__':
     # train and score the model
     batch_size = 128
     nb_epoch = 100
-    model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=nb_epoch,
-          verbose=1, validation_data=(X_test, Y_test), callbacks=[checkpointer])
+    #print("X,Y shapes are:", X_train.shape, Y_train.shape)
+    X_test = np.reshape(X_test, (462, 96, 9988, 1))
+    X_train = np.reshape(X_train, (1676, 96, 9988, 1))
+    model.fit(X_train, Y_train, batch_size=batch_size, epochs=nb_epoch,
+            verbose=1, validation_data=(X_test, Y_test), callbacks=[checkpointer])
     score = model.evaluate(X_test, Y_test, verbose=0)
     print('Test score:', score[0])
     print('Test accuracy:', score[1])
-
