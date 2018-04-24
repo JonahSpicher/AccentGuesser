@@ -13,13 +13,18 @@ This is all done in the background. As far as user interface goes, a Flask based
 ## How to Use It
 
 To use the accent guesser, just click this link and follow the onscreen instructions: [Eventually there will be a link here]
-To see the code, follow the link at the top of the page and follow the instructions in the README. The dataset can be found here: https://www.kaggle.com/rtatman/speech-accent-archive
+
+To see the code, follow the link at the top of the page and follow the instructions in the README. 
+
+The dataset can be found here: https://www.kaggle.com/rtatman/speech-accent-archive
 
 
 ## Something that means results
 
 Again, to see the accent guesser in action follow this link:  [Eventually there will be a link here]
+
 Here is a video of it in action:
+
 As well as a few graphs of its accuracy for different accents and over time.
 (These will be here eventually)
 
