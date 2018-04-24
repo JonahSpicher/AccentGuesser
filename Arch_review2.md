@@ -4,7 +4,7 @@ Spring 2018
 
 # Architectural Review \#2 Reflection
 
-##Feedback and Decisions:
+## Feedback and Decisions:
 
 During the course of our architectural review, we posed the following questions to our peers in order to gain feedback on certain portions of our project:
 
