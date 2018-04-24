@@ -21,7 +21,7 @@ To see the code, follow the link at the top of the page and follow the instructi
 The dataset can be found here: https://www.kaggle.com/rtatman/speech-accent-archive
 
 
-## Something that means results
+## What it Does
 
 Again, to see the accent guesser in action follow this link:  [Eventually there will be a link here]
 
