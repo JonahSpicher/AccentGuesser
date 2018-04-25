@@ -1,6 +1,6 @@
 ## What It is
 
-("Big idea" goes here")
+Based off of a dataset found from Kaggle (link below), we are training a convolutional neural network (CNN) to be able to detect the accent of a speaker reading a passage in English. Utilizing a graphical user interface (GUI), the user has the ability to record their voice and upload it to the GUI for it to be tested on the CNN, and then be able to see where the network guessed they were from. After this, the user has the option to indicate whether it was correct or not, and the CNN will hopefully be able to use these recordings as future datasets to train on.
 
 ## How It Works
 
@@ -32,3 +32,6 @@ Here is a video of it in action:
 As well as a few graphs of its accuracy for different accents and over time.
 (These will be here eventually)
 
+## Acknowledgements
+
+Many thanks to the user drscotthawley for the usage of his audio classifier (https://github.com/drscotthawley/audio-classifier-keras-cnn)
