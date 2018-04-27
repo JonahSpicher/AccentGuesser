@@ -27,7 +27,7 @@ Again, to see the accent guesser in action follow this link:  [Eventually there 
 
 Here is a video of it in action:
 
-![Image](https://github.com/JonahSpicher/AccentGuesser/blob/master/docs/images/Picture1.png)
+![Image](images/Picture1.png)
 
 As well as a few graphs of its accuracy for different accents and over time.
 (These will be here eventually)
