@@ -4,7 +4,7 @@ Based off of a dataset found from Kaggle (link below), we are training a convolu
 
 ## How It Works
 
-![Image](https://github.com/JonahSpicher/AccentGuesser/blob/master/docs/images/flowChart.png)
+![Image](images/flowChart.png)
 There is a picture here but I can't figure out how to get it to show up online, it only works offline.
 
 Our Accent Guesser runs on a convolutional neural network (CNN) using Keras and Tensorflow. After training on thousands of audio recordings from the Speech Accent Archive, the CNN developed a system of equations which, when fed audio data, should classify it based on the accent of the speaker. The training process works by labelling each recording with it’s accent, processing the data by multiplying it by a system of weights, which highlight and compare different features, and gradually reduce it to one of about 200 “classes” (in this case, accents). The error from this initial guess is calculated, and the system weights is adjusted accordingly, and then the process is repeated until a sufficient level of accuracy is reached.
