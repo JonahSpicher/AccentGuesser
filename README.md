@@ -5,6 +5,8 @@ to guess the accent of the speaker. The passage (as well as the data the network
 is trained on) was taken from kaggle. Recordings and correct answers (taken from
 feedback) are stored to improve the network.
 
+Website with more information [here.](https://jonahspicher.github.io/AccentGuesser/)
+
 ## Authors:
 
 Jillian MacGregor
