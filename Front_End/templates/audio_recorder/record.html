@@ -1,0 +1,52 @@
+{%extends "layout.html"%}
+
+{%block scripts%}
+<script type="text/javascript" src="{{ url_for('static', filename='js/audiodisplay.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/recorder.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+{%endblock%}
+
+{%block content%}
+
+<div class="row">
+  <div class="column1" style="background-color:#aaa;">
+    <h2>Passage</h2>
+    <p1>Please call Stella. Ask her to bring these things with her from the
+      store: Six spoons of fresh snow peas, five thick slabs of blue cheese,
+      and maybe a snack for her brother Bob. We also need a small plastic snake
+      and a big toy frog for the kids. She can scoop these things into three
+      red bags, and we will go meet her Wednesday at the train station.</p1>
+
+
+  </div>
+  <div class="column2" style="background-color:#bbb;">
+    <h2>Record</h2>
+    <p1>Click record and then read this passage aloud. Click the submit button
+    below and see how well Accent Guesser guesses your accent!</p1>
+
+
+    <div>
+
+      <div id="wd">
+      <!--<canvas id="analyser" width="500" height="500"></canvas>-->
+      <canvas id="wavedisplay" width="500" height="250"></canvas>
+      </div>
+
+      <ul>
+        <li id="pl"><img id="record" src="../../static/mic.png" onclick="toggleRecording(this);"></li>
+        <li id="pl"><a id="save" href="#"><img src="../../static/arrow.png"></a></li>
+      </ul>
+    </div>
+
+  </div>
+
+
+
+</div>
+
+
+
+{%endblock%}

@@ -1,9 +1,13 @@
 {%extends "layout.html"%}
 {%block content%}
-<div class=sub>
+<div class="container">
       <h1>Accent Guesser</h1>
-      <form action="">
-            <label>Accent Guesser uses over 2000 smaples of English speakers across the globe and machine learning techniques to guess accents. Can it guess yours?</label>
-            <input type="submit" value="Let's get started!!">
+      <!-- <form action=""> -->
+        <div class="grid-100">
+          <p1>Accent Guesser uses over 2000 smaples of English speakers
+            across the globe and machine learning techniques to guess accents.
+            Can it guess yours?</p1>
+          <p1><a href="http://0.0.0.0:8000/record" class='button'>Let's get started!</a></p1>
+        </div>
 </div>
 {%endblock%}
