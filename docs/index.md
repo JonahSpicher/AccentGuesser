@@ -34,4 +34,5 @@ As well as a few graphs of its accuracy for different accents and over time.
 
 ## Acknowledgements
 
-Many thanks to the user drscotthawley for the usage of his [audio classifier](https://github.com/drscotthawley/panotti).
+Many thanks to GitHub user drscotthawley for the usage of his [audio classifier](https://github.com/drscotthawley/panotti).
+Thank you as well to Chris Wilson and Matt Diamond for the javascript providing in-browser [audio recording capabilities](https://webaudiodemos.appspot.com/AudioRecorder/index.html).
