@@ -2,6 +2,8 @@ import json
 from flask import (Flask, render_template, redirect,
                    url_for, request, make_response)
 
+from werkzeug import secure_filename
+
 app = Flask(__name__)
 
 
@@ -20,16 +22,32 @@ def record():
     return render_template('audio_recorder/record.html')
 
 
-@app.route('/save', methods=['POST'])
-def save():
-    response = make_response(redirect(url_for('index')))
-    response.set_cookie('character', json.dumps(dict(request.form.items())))
-    return response
+@app.route('/r', methods = ['GET', 'POST'])
+def upload_file():
+   if request.method == 'POST':
+      try:
+          f = request.files['file']
+          f.save(secure_filename(f.filename))
+          print(f)
+      except:
+          return redirect('/record')
+
+      #JJ do some stuff
+
+      lang = 'Danish'
+      return render_template('result.html', answer=lang)
 
 
-@app.route('/test')
-def test():
-    return render_template('audio_recorder/ar.html')
+@app.route('/result')
+def result():
+    return render_template('result.html')
+
+@app.route('/answer', methods = ['GET', 'POST'])
+def answer():
+   if request.method == 'POST':
+      first_lang = request.form['a']
+      print(first_lang)
+      return redirect('/result')
 
 
 app.run(debug=True, host="0.0.0.0", port=8000)

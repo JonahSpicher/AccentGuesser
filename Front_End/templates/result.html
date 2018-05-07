@@ -1,0 +1,22 @@
+{%extends "layout.html"%}
+{%block content%}
+
+<div class="container">
+      <h1>{{answer}}</h1>
+      <!-- <form action=""> -->
+        <div class="grid-100">
+          <p1>Did Accent Guesser guess you first language correctly? If not,
+          indicate your first language so Accent Guesser can keep on learning!</p1>
+
+          <form action = "/answer" method = "POST"
+             enctype = "multipart/form-data">
+             <input type = "text" name = "a" />
+             <input id='wd' type = "submit"/  value="Submit">
+          </form>
+
+          <p1><a href="http://0.0.0.0:8000/record" class='button'>Try Again</a></p1>
+        </div>
+</div>
+
+
+{%endblock%}

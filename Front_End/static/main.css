@@ -141,7 +141,7 @@ p2 {
 .column2 {
     float: left;
     width: 50%;
-    padding: 4% 7%;
+    padding: 2% 7%;
     height: 910px; /* Should be removed. Only for demonstration */
 }
 
@@ -153,9 +153,19 @@ p2 {
 }
 
 #pl {
-    margin-left: 78px;
+    margin-left: 20px;
     margin-top: 30px;
-    margin-right: 78px;
+    margin-right: 40px;
+}
+
+#browse {
+    margin-top: 85px;
+    margin-left: 20px;
+}
+
+#guess {
+    margin-top: 110px;
+    margin-left: -195px;
 }
 
 html { overflow: hidden; }
@@ -166,7 +176,7 @@ html { overflow: hidden; }
 			height: 45%;
 			box-shadow: 0px 0px 10px #44555C;
 		}
-		#record { height: 15vh; }
+		#record { height: 11vh; }
 		#record.recording {
 			background: red;
 			background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);

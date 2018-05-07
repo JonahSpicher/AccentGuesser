@@ -4,6 +4,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/audiodisplay.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/recorder.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/recorderjs/recorderWorker.js') }}"></script>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -31,14 +32,20 @@
     <div>
 
       <div id="wd">
-      <!--<canvas id="analyser" width="500" height="500"></canvas>-->
-      <canvas id="wavedisplay" width="500" height="250"></canvas>
+      <canvas id="analyser" width="500" height="120"></canvas>
+      <canvas id="wavedisplay" width="500" height="120"></canvas>
       </div>
 
       <ul>
         <li id="pl"><img id="record" src="../../static/mic.png" onclick="toggleRecording(this);"></li>
-        <li id="pl"><a id="save" href="#"><img src="../../static/arrow.png"></a></li>
+        <li id="pl"><a id="save" href="#"><img src="../../static/download.png"></a></li>
       </ul>
+
+      <form action = "/r" method = "POST"
+         enctype = "multipart/form-data">
+         <input id="browse" type = "file" name = "file"/>
+         <input id="guess" type = "submit"/ value="Guess my accent!" class="button">
+      </form>
     </div>
 
   </div>
