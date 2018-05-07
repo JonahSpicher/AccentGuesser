@@ -5,6 +5,9 @@ to guess the accent of the speaker. The passage (as well as the data the network
 is trained on) was taken from kaggle. Recordings and correct answers (taken from
 feedback) are stored to improve the network.
 
+The classifier is accessed through a flask webapp. Backend work was done with the 
+Panotti audio classifier using tensorflow. 
+
 Website with more information [here.](https://jonahspicher.github.io/AccentGuesser/)
 
 ## Authors:
@@ -42,17 +45,6 @@ Keras-
 To install:
 
     $pip install keras
-
-### To Use Classifier:
-
-ffmpeg-
-
-To install:
-
-	$sudo add-apt-repository ppa:mc3man/trusty-media
-	$sudo apt-get update  
-	$sudo apt-get install ffmpeg
-	$sudo apt-get install frei0r-plugins
 
 
 
