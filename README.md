@@ -50,6 +50,8 @@ Pickle-
 To install:
 
     $pip install pickle
+    
+(Make sure you have the most recent version of pip)
 
 
 
