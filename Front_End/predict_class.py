@@ -77,8 +77,8 @@ def main_given_filename(filename):
             print( class_names[i],": ",y_prob[i],", ",end="",sep="")#Prints confidence values for all classes
         answer = class_names[ np.argmax(y_prob)]#Answer is the one with the highest confidence
         print("--> ANSWER:", class_names[ np.argmax(y_prob)])
+        return answer
     else:
         #If the file is not a file, say so.
-        print(" *** File",infile,"does not exist.  Skipping.")
-
-    return answer
+        print(" *** File",filename,"does not exist.  Skipping.")
+        return "Try again, please"
