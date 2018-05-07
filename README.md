@@ -21,7 +21,6 @@ Ashley Swanson
 (With significant contributions from a github repo by drscotthawley at https://github.com/drscotthawley/panotti for audio classification)
 
 ## Required packages:
-### To run web app:
 Librosa-
 
 To install:
@@ -45,6 +44,12 @@ Keras-
 To install:
 
     $pip install keras
+    
+Pickle-
+
+To install:
+
+    $pip install pickle
 
 
 
