@@ -1,3 +1,6 @@
+"""
+"""
+
 import json
 from flask import (Flask, render_template, redirect,
                    url_for, request, make_response)
@@ -33,25 +36,24 @@ def upload_file():
           print(f)
       except:
           return redirect('/record')
-
+      global lang #imports lang as a global variable
       print(f.filename)
       filepath = '../../Downloads/' + f.filename
-      global lang
       lang = main_given_filename(filepath)
-      return render_template('result.html', answer=lang)
+      return redirect('/result')
 
 
 @app.route('/result') #page with accent guess
 def result():
-    return render_template('result.html')
+    global lang #imports lang as a global variable
+    return render_template('result.html', answer=lang)
 
 @app.route('/answer', methods = ['GET', 'POST'])
 def answer():
    if request.method == 'POST':
       first_lang = request.form['a']
       print(first_lang)
-      global lang
-      return render_template('result.html', answer=lang)
+      return redirect('/result')
 
 
 app.run(debug=True, host="0.0.0.0", port=8000)

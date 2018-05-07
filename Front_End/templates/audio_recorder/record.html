@@ -31,17 +31,19 @@
 
 
     <div>
-
+      <!-- Displays bars showing active mic and wave line acknowledging recording -->
       <div id="wd">
       <canvas id="analyser" width="500" height="120"></canvas>
       <canvas id="wavedisplay" width="500" height="120"></canvas>
       </div>
 
       <ul>
+        <!-- Buttons to record and download audio file -->
         <li id="pl"><img id="record" src="../../static/mic.png" onclick="toggleRecording(this);"></li>
         <li id="pl"><a id="save" href="#"><img src="../../static/download.png"></a></li>
       </ul>
 
+      <!-- Buttons to reselect file for upload and guessing -->
       <form action = "/r" method = "POST"
          enctype = "multipart/form-data">
          <input id="browse" type = "file" name = "file"/>
