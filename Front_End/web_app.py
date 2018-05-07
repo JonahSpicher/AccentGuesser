@@ -8,9 +8,16 @@ from flask import (Flask, render_template, redirect,
 from werkzeug import secure_filename
 from predict_class import main_given_filename
 
+import os
+from os.path import exists
+import sys
+import pickle
+from pickle import dump, load
+
 app = Flask(__name__)
 
 lang='' #global variable for passing current accent guess between pages
+filepath = ''
 
 @app.route('/') #home page
 def index():
@@ -37,6 +44,7 @@ def upload_file():
       except:
           return redirect('/record')
       global lang #imports lang as a global variable
+      global filepath
       print(f.filename)
       filepath = '../../Downloads/' + f.filename
       lang = main_given_filename(filepath)
@@ -48,11 +56,28 @@ def result():
     global lang #imports lang as a global variable
     return render_template('result.html', answer=lang)
 
-@app.route('/answer', methods = ['GET', 'POST'])
+@app.route('/answer', methods = ['GET', 'POST']) #uploads correct accent & audio
+# file path to txt file for later trainings
 def answer():
    if request.method == 'POST':
       first_lang = request.form['a']
       print(first_lang)
+
+      file_name = 'AccentGuesserLearn.txt'
+      global filepath
+      if(exists(file_name) == False):
+          f = open(file_name, 'wb')
+          insert = pickle.dumps(first_lang + ' : ' + filepath + '\n')
+          f.write(insert)
+          f.close()
+
+      else:
+          f = open(file_name, 'rb+')
+          curr = f.read()
+          insert = pickle.dumps(first_lang + ' : ' + filepath + '\n')
+          f.write(insert)
+          f.close()
+
       return redirect('/result')
 
 
