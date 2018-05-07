@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 '''
-Given one audio clip, output what the network thinks
+Given one audio clip, output what the network thinks.
+Taken mostly from drscotthawley from panotti, with changes for integration.
 '''
 from __future__ import print_function
 import numpy as np
@@ -10,9 +11,12 @@ from os.path import isfile
 from panotti.models import *
 from panotti.datautils import *
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # less TF messages, thanks
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # less TF messages
 
 def get_canonical_shape(signal):
+    """Finds the shape of a given audio signal loadded in librosa.
+    Returns the shape as a tuple of ints.
+    """
     if len(signal.shape) == 1:
         return (1, signal.shape[0])
     else:
@@ -20,6 +24,10 @@ def get_canonical_shape(signal):
 
 
 def predict_one(signal, sr, model, expected_melgram_shape):# class_names, model)#, weights_file="weights.hdf5"):
+    """Predicts for one audio file. The name is leftover from the panotti classifier,
+    where the function could be used to predict a list of files. Returns a numpy
+    array of confidence percentages.
+    """
     X = make_layered_melgram(signal,sr)
     print("signal.shape, melgram_shape, sr = ",signal.shape, X.shape, sr)
 
@@ -34,8 +42,12 @@ def predict_one(signal, sr, model, expected_melgram_shape):# class_names, model)
 
 
 def main_given_filename(filename):
+    """Alteration of the panotti main function, altered to take a filename
+    instead of system arguments. Given a filename, returns the most likely class
+    as a string. Also prints confidence for all classes in terminal.
+    """
     np.random.seed(1)
-    #I am gonna hardcode these for now, sorry
+    #I am gonna hardcode these for now, sorry, they were default values for sys args
     weights_file= 'weights.hdf5'
     dur = None
     resample = 44100
@@ -47,46 +59,26 @@ def main_given_filename(filename):
         print("No weights file found.  Aborting")
         exit(1)
 
-    #model.summary()
-
-    #TODO: Keras load_models is spewing warnings about not having been compiled. we can ignore those,
-    #   how to turn them off?  Answer: can invoke with python -W ignore ...
-
-    #class_names = get_class_names(args.classpath) # now encoding names in model weights file
     nb_classes = len(class_names)
     print(nb_classes," classes to choose from: ",class_names)
     expected_melgram_shape = model.layers[0].input_shape[1:]
     print("Expected_melgram_shape = ",expected_melgram_shape)
     file_count = 0
-    # json_file = open("data.json", "w")
-    # json_file.write('{\n"items":[')
-
-    idnum = 0
-    numfiles = 1
-    print("Reading",numfiles,"files")
 
     if os.path.isfile(filename):
         file_count += 1
         print("File",filename,":",end="")
 
-        signal, sr = load_audio(filename, mono=mono, sr=resample)
+        signal, sr = load_audio(filename, mono=mono, sr=resample)#sr is sample rate
 
-        y_proba = predict_one(signal, sr, model, expected_melgram_shape) # class_names, model, weights_file=args.weights)
+        y_prob = predict_one(signal, sr, model, expected_melgram_shape)#Probabilities for each class (Confidence values)
 
         for i in range(nb_classes):
-            print( class_names[i],": ",y_proba[i],", ",end="",sep="")
-        answer = class_names[ np.argmax(y_proba)]
-        print("--> ANSWER:", class_names[ np.argmax(y_proba)])
-        # outstr = '\n  {\n   "id": "'+str(idnum)+'",\n      "name":"'+infile+'",\n      "tags":[\n   "'+answer+'"]\n  }'
-        # if (idnum < numfiles-1):
-        #     outstr += ','
-        # json_file.write(outstr)
-        # json_file.flush()     # keep json file up to date
+            print( class_names[i],": ",y_prob[i],", ",end="",sep="")#Prints confidence values for all classes
+        answer = class_names[ np.argmax(y_prob)]#Answer is the one with the highest confidence
+        print("--> ANSWER:", class_names[ np.argmax(y_prob)])
     else:
-        pass #print(" *** File",infile,"does not exist.  Skipping.")
-    # idnum += 1
-
-    # json_file.write("]\n}\n")
-    # json_file.close()
+        #If the file is not a file, say so.
+        print(" *** File",infile,"does not exist.  Skipping.")
 
     return answer
