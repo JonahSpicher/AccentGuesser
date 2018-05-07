@@ -3,6 +3,7 @@ from flask import (Flask, render_template, redirect,
                    url_for, request, make_response)
 
 from werkzeug import secure_filename
+from predict_class import main_given_filename
 
 app = Flask(__name__)
 
@@ -33,8 +34,11 @@ def upload_file():
           return redirect('/record')
 
       #JJ do some stuff
+      #print(f.filename)
+      filepath = '../../Desktop/' + f.filename
+      lang = main_given_filename(filepath)
 
-      lang = 'Danish'
+      #lang = 'Danish'
       return render_template('result.html', answer=lang)
 
 
