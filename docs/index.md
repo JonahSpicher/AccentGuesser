@@ -26,7 +26,7 @@ Here is a video of it in action:
 
 Here is an ROC curve of the network in its current state. As you can see, it has a long way to go before we can call it a total success. As of right now, test accuracy is about 25%, which is largely a function of our very limited dataset. Expanding the dataset should up our accuracy and prevent overfitting. The ROC curve is a plot for each class of the number of false positives compared to the number of true positives. Ideally, these lines would be mostly at the top left area of the graph, and would definitely not be vertical or quite so chaotic.
 
-![Graph](images/graph.png)
+![Graph](images/roc_curve.png)
 
 ## Acknowledgements
 
