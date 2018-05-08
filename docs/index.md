@@ -6,7 +6,7 @@ Based off of a dataset found from Kaggle (link below), we are training a convolu
 
 ![Image](images/flowChart.png)
 
-Our Accent Guesser runs on a [convolutional neural network (CNN)](https://en.wikipedia.org/wiki/Convolutional_neural_network) using [Keras](https://keras.io/) and [Tensorflow](https://www.tensorflow.org/). After training on thousands of audio recordings from the [Speech Accent Archive](http://accent.gmu.edu/), the CNN developed a system of equations which, when fed audio data, should classify it based on the accent of the speaker. The training process works by labelling each recording with its accent, processing the data by multiplying it by a system of weights, which highlight and compare different features, and gradually reduce it to one of about 120 “classes” (in this case, accents). The error from this initial guess is calculated, and the system's weights are adjusted accordingly, and then the process is repeated until a sufficient level of accuracy is reached.
+Our Accent Guesser runs on a [convolutional neural network (CNN)](https://en.wikipedia.org/wiki/Convolutional_neural_network) using [Keras](https://keras.io/) and [Tensorflow](https://www.tensorflow.org/). After training on thousands of audio recordings from the [Speech Accent Archive](http://accent.gmu.edu/), the CNN developed a system of equations which, when fed audio data, should classify it based on the accent of the speaker. The training process works by labelling each recording with its accent, processing the data by multiplying it by a system of weights, which highlight and compare different features, and gradually reduce it to one of about 120 “classes” (in this case, accents). The error from this initial guess is calculated, and the system's weights are adjusted accordingly, and then the process is repeated until a sufficient level of accuracy is reached. We used the Panotti classifier from github user drscotthawley, which can be found [here](https://github.com/drscotthawley/panotti), but have modified it somewhat, and our changes can be found [here](https://github.com/JonahSpicher/NewClassifier).
 
 This is all done in the background. As far as user interface goes, a [Flask](http://flask.pocoo.org/) based web-app acts as the front end. It records the user’s voice, then uses the CNN’s weights to guess their accent, presents that guess, and then asks for feedback. It stores their recording and correct accent in the training database to further train the accent guesser later.
 
@@ -18,16 +18,15 @@ Before running the accent guesser on your system, follow the steps in the README
 The dataset can be found [here](https://www.kaggle.com/rtatman/speech-accent-archive)
 
 
-## Take a (not so) Wild Guess
-
-Again, to see the accent guesser in action follow this link:  [Eventually there will be a link here]
+## Results and Functionality
 
 Here is a video of it in action:
 
 ![Image](images/Picture1.png)
 
-As well as a few graphs of its accuracy for different accents and over time.
-(These will be here eventually)
+Here is an ROC curve of the network in its current state. As you can see, it has a long way to go before we can call it a total success. As of right now, test accuracy is about 25%, which is largely a function of our very limited dataset. Expanding the dataset should up our accuracy and prevent overfitting. The ROC curve is a plot for each class of the number of false positives compared to the number of true positives. Ideally, these lines would be mostly at the top left area of the graph, and would definitely not be vertical or quite so chaotic.
+
+![Graph](images/graph.png)
 
 ## Acknowledgements
 
