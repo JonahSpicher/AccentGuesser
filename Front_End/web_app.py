@@ -1,4 +1,7 @@
 """
+Main script for AccentGuesser, a web app which uses machine learning to classify speech by accent.
+Runs the web app, all other functionality is accessible through pages loaded in a browser.
+Authors: Jillian MacGregor, Jonah Spicher, & Ashley Swanson
 """
 
 import json
